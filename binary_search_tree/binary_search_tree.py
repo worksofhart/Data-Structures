@@ -62,11 +62,10 @@ class BinarySearchTree:
     # You may use a recursive or iterative approach
     def for_each(self, cb):
         def traverse(node):
-            if not node:
-                return
-            node.value = cb(node.value)
-            traverse(node.left)
-            traverse(node.right)
+            if node:
+                node.value = cb(node.value)
+                traverse(node.left)
+                traverse(node.right)
         traverse(self)
 
     # DAY 2 Project -----------------------
@@ -75,7 +74,12 @@ class BinarySearchTree:
     # Hint:  Use a recursive, depth first traversal
 
     def in_order_print(self, node):
-        pass
+        def traverse(node):
+            if node:
+                traverse(node.left)
+                print(node.value)
+                traverse(node.right)
+        traverse(self)
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
