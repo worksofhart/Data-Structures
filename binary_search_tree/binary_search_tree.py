@@ -1,7 +1,7 @@
-import sys
-sys.path.append('../queue_and_stack')
-from dll_queue import Queue
-from dll_stack import Stack
+# from dll_stack import Stack
+# from dll_queue import Queue
+# import sys
+# sys.path.append('../queue_and_stack')
 
 
 class BinarySearchTree:
@@ -12,10 +12,27 @@ class BinarySearchTree:
 
     # Insert the given value into the tree
     def insert(self, value):
-        pass
+        current_node = self
+        finished = False
+        while not finished:
+            if current_node.value == value:
+                return
+            elif current_node.value < value:
+                if current_node.right:
+                    current_node = current_node.right
+                else:
+                    current_node.right = BinarySearchTree(value)
+                    finished = True
+            elif current_node.value > value:
+                if current_node.left:
+                    current_node = current_node.left
+                else:
+                    current_node.left = BinarySearchTree(value)
+                    finished = True
 
     # Return True if the tree contains the value
     # False if it does not
+
     def contains(self, target):
         pass
 
