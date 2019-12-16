@@ -1,7 +1,6 @@
-# from dll_stack import Stack
-# from dll_queue import Queue
-# import sys
-# sys.path.append('../queue_and_stack')
+from dll_stack import Stack
+from dll_queue import Queue
+import sys
 
 
 class BinarySearchTree:
@@ -18,13 +17,13 @@ class BinarySearchTree:
             if current_node.value == value:
                 return
             elif current_node.value < value:
-                if current_node.right:
+                if current_node.right is not None:
                     current_node = current_node.right
                 else:
                     current_node.right = BinarySearchTree(value)
                     finished = True
             elif current_node.value > value:
-                if current_node.left:
+                if current_node.left is not None:
                     current_node = current_node.left
                 else:
                     current_node.left = BinarySearchTree(value)
@@ -40,12 +39,12 @@ class BinarySearchTree:
             if current_node.value == target:
                 return True
             elif current_node.value < target:
-                if current_node.right:
+                if current_node.right is not None:
                     current_node = current_node.right
                 else:
                     finished = True
             elif current_node.value > target:
-                if current_node.left:
+                if current_node.left is not None:
                     current_node = current_node.left
                 else:
                     finished = True
@@ -84,12 +83,28 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        queue = Queue()
+        queue.enqueue(node)
+        while queue.len():
+            current_node = queue.dequeue()
+            print(current_node.value)
+            if current_node.left is not None:
+                queue.enqueue(current_node.left)
+            if current_node.right is not None:
+                queue.enqueue(current_node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+        stack = Stack()
+        stack.push(node)
+        while stack.len():
+            current_node = stack.pop()
+            print(current_node.value)
+            if current_node.right is not None:
+                stack.push(current_node.right)
+            if current_node.left is not None:
+                stack.push(current_node.left)
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
