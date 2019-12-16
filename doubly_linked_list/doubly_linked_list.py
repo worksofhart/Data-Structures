@@ -57,7 +57,7 @@ class DoublyLinkedList:
 
     def add_to_head(self, value):
         self.length += 1
-        if not self.head:
+        if not self.head and not self.tail:
             self.head = ListNode(value, None, self.head)
             self.tail = self.head
         else:
@@ -79,7 +79,7 @@ class DoublyLinkedList:
 
     def add_to_tail(self, value):
         self.length += 1
-        if not self.tail:
+        if not self.tail and not self.head:
             self.tail = ListNode(value, self.tail, None)
             self.head = self.tail
         else:
@@ -102,10 +102,7 @@ class DoublyLinkedList:
         if node is self.head:
             return
         value = node.value
-        if node is self.tail:
-            self.remove_from_tail()
-        else:
-            self.delete(node)
+        self.delete(node)
         self.add_to_head(value)
 
     """Removes the input node from its current spot in the 
@@ -115,10 +112,7 @@ class DoublyLinkedList:
         if node is self.tail:
             return
         value = node.value
-        if node is self.tail:
-            self.remove_from_head()
-        else:
-            self.delete(node)
+        self.delete(node)
         self.add_to_tail(value)
 
     """Removes a node from the list and handles cases where
