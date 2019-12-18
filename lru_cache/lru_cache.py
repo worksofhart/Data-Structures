@@ -13,8 +13,9 @@ class LRUCache:
     def __init__(self, limit=10):
         self.limit = limit
         self.nodes = 0
-        self.storage = {}
-        self.cache = DoublyLinkedList()
+        self.cache = {}  # Dictionary representing every key currently in cache, used as a quick lookup table to avoid linked list traversal
+        # Linked list storing every node currently in cache, in order from most recent at head to least at tail
+        self.storage = DoublyLinkedList()
 
     """
     Retrieves the value associated with the given key. Also
@@ -25,11 +26,12 @@ class LRUCache:
     """
 
     def get(self, key):
-        if key not in self.storage:
+        if key not in self.cache:
             return None
         else:
-            node = self.storage[key]
-            self.cache.move_to_front(node)
+            # Move to head since it's now most recently used
+            node = self.cache[key]
+            self.storage.move_to_front(node)
             return node.value[1]
 
     """
@@ -44,17 +46,19 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        if key in self.storage:
-            node = self.storage[key]
-            node.value[1] = value
-            self.cache.move_to_front(node)
-            self.storage[key] = self.cache.head
+        # If key found, update node's value and move it to the front of the list since it's now the most recently used
+        if key in self.cache:
+            node = self.cache[key]
+            node.value = (key, value)
+            self.storage.move_to_front(node)
             return
+        # If we've reached max capacity, evict least recently used node
         if self.limit == self.nodes:
-            tail = self.cache.tail
-            del self.storage[tail.value[0]]
-            self.cache.remove_from_tail()
+            tail = self.storage.tail
+            del self.cache[tail.value[0]]
+            self.storage.remove_from_tail()
             self.nodes -= 1
-        self.cache.add_to_head([key, value])
-        self.storage[key] = self.cache.head
+        # Add key, value pair to our DLL
+        self.storage.add_to_head((key, value))
+        self.cache[key] = self.storage.head
         self.nodes += 1
